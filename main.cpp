@@ -1,15 +1,31 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "i2cDriver.h"
+#include <cstddef>
+#include <cstring>
 using namespace std;
 
 int main()
 {
-    vector<string> msg {"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
 
-    for (const string& word : msg)
+    I2C_Simulator i2c_sim;
+    // i2c_sim = new I2C_Simulator();
+    const char *data = "hello";
+    auto result = i2c_sim.i2cWrite(data, strlen(data), 1);
+
+    if (result == FUNCTION_STATUS_OK)
     {
-        cout << word << " ";
+        cout << "Data written successfully." << endl;
     }
-    cout << endl;
+    else if (result == FUNCTION_STATUS_TIMEOUT)
+    {
+        cout << "Failed to write data: Timeout." << endl;
+    }
+    else
+    {
+        cout << "Failed to write data: Unknown error." << endl;
+    }
+
+    return 0;
 }
