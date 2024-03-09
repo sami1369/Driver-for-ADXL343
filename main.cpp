@@ -19,7 +19,7 @@ int main()
     ADXL343 *adx;
     adx = new ADXL343(i2c_sim, ADXL343_Registers::DEVICE_ADDRESS);
 
-
+    adx->initialize();
 
 
 

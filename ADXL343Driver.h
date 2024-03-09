@@ -9,6 +9,7 @@
 
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include "i2cDriver.h"
 
 // ADXL343-specific definitions
@@ -31,9 +32,17 @@ class ADXL343
 private:
 	I2C_Simulator		*i2c;
     uint8_t             address;
+    bool writeRegister(uint8_t reg, uint8_t value);
+
 
 public:
     ADXL343(I2C_Simulator *i2c_, uint8_t address_ );
+
+    
+    bool initialize();
+    
+
+
 
 };
 
