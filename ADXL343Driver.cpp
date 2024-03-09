@@ -11,16 +11,33 @@
 bool ADXL343::writeRegister(uint8_t reg, uint8_t value)
 {
     char data[2];
-    data[0] = static_cast<char>(reg);   // Register address
-    data[1] = static_cast<char>(value); // Data to write
+    data[0] = static_cast<char>(reg);                    // Register address
+    data[1] = static_cast<char>(value);                  // Data to write
 
     FunctionStatus status = i2c->i2cWrite(data, 2, 100); // Example timeout of 100 ms
+
     if (status != FUNCTION_STATUS_OK)
     {
         return false;
     }
 
     return true;
+}
+
+/**
+ * @brief read from ADXL343 sensor
+ * First write the register address we want to read from
+ * Second read the value from the register
+ */
+uint8_t ADXL343::readRegister(uint8_t reg)
+{
+    uint8_t value = 0;
+    i2c->i2cWrite(reinterpret_cast<const char*>(&reg), 1, 100);     // Assuming this method exists and works as described
+
+    i2c->i2cRead(reinterpret_cast<char*>(&value), 1, 100);          // Assuming this method exists and works as described
+
+    return value;
+
 }
 
 /************************Public methods**************************/
@@ -44,4 +61,11 @@ bool ADXL343::initialize()
     // 4g range, for example
     if (writeRegister(ADXL343_Registers::POWER_CTL, 0x08) & writeRegister(ADXL343_Registers::DATA_FORMAT, 0x01))
         return true;
+}
+
+void ADXL343::readAcceleration(int16_t &x, int16_t &y, int16_t &z)
+{
+	x = (readRegister(ADXL343_Registers::DATAX1) << 8) | readRegister(ADXL343_Registers::DATAX0);
+	y = (readRegister(ADXL343_Registers::DATAY1) << 8) | readRegister(ADXL343_Registers::DATAY0);
+	z = (readRegister(ADXL343_Registers::DATAZ1) << 8) | readRegister(ADXL343_Registers::DATAZ0);
 }

@@ -32,14 +32,17 @@ class ADXL343
 private:
 	I2C_Simulator		*i2c;
     uint8_t             address;
-    bool writeRegister(uint8_t reg, uint8_t value);
+    bool     writeRegister(uint8_t reg, uint8_t value);
+    uint8_t  readRegister(uint8_t reg);
 
 
 public:
     ADXL343(I2C_Simulator *i2c_, uint8_t address_ );
 
-    
-    bool initialize();
+
+    bool    initialize();
+    void    readAcceleration(int16_t& x, int16_t& y, int16_t& z);
+
     
 
 
