@@ -52,7 +52,9 @@ private:
 
 
 public:
-     FunctionStatus     i2cWrite( const char* dataToWrite, size_t length, uint32_t timeout);
+    FunctionStatus i2cWrite( const char* dataToWrite, size_t length, uint32_t timeout);
+    FunctionStatus i2cRead(char* dataToRead, size_t length, uint32_t timeout);
+
 };
 
 
