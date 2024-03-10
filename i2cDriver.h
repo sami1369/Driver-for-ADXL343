@@ -6,9 +6,7 @@
  * @file           : i2c_drive.h
  * @brief          : I2C Driver Module Interface
  * 
- ******************************************************************************
- * @defgroup hal Hardware Abstraction Layer (HAL)
- * This module provides an interface for I2C (Inter-Integrated Circuit) communication. It abstracts the lower-level
+ * This library provides an interface for I2C (Inter-Integrated Circuit) communication. It abstracts the lower-level
  * details of hardware interaction, facilitating communication with I2C peripherals. The module is designed to be
  * portable, efficient, and easy to use, with support for both blocking and non-blocking operations. It includes
  * functions for initializing the I2C bus, reading from and writing to I2C devices, and handling common I2C
@@ -17,6 +15,7 @@
  * Usage of this module allows for clear, concise, and efficient I2C communication implementations, supporting
  * a wide range of I2C slave devices. It is suitable for projects requiring communication with sensors, memory
  * modules, and other I2C-compatible peripherals.
+ * @date           : 2024/03/09
  */
 
 /* Includes ------------------------------------------------------------------*/
@@ -43,19 +42,20 @@ typedef enum
 
 
 /**
- * @brief Simulator I2C 
-*/
-class I2C_Simulator 
+ * @brief I2C Communication Simulator
+ * This class simulates I2C communication for development and testing purposes. It provides
+ * interfaces to simulate writing to and reading from an I2C device without requiring actual
+ * hardware. This enables testing of I2C device drivers, such as those for the ADXL343 accelerometer,
+ * in a controlled environment.
+ */
+class I2C_Simulator
 {
 private:
-	uint8_t		Registers[200];
-
+    uint8_t registers[100];
 
 public:
-    FunctionStatus i2cWrite( const char* dataToWrite, size_t length, uint32_t timeout);
-    FunctionStatus i2cRead(char* dataToRead, size_t length, uint32_t timeout);
-
+    FunctionStatus i2cWrite(const char *dataToWrite, size_t length, uint32_t timeout);
+    FunctionStatus i2cRead(char *dataToRead, size_t length, uint32_t timeout);
 };
-
 
 #endif /*I2CDRIVER_H_ */
