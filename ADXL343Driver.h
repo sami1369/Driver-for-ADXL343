@@ -26,6 +26,14 @@ namespace ADXL343_Registers {
     // Add other registers as needed
 }
 
+/** Used with register 0x31 (ADXL3XX_REG_DATA_FORMAT) to set g range */
+typedef enum {
+  ADXL343_RANGE_16_G = 0b11, /**< +/- 16g */
+  ADXL343_RANGE_8_G = 0b10,  /**< +/- 8g */
+  ADXL343_RANGE_4_G = 0b01,  /**< +/- 4g */
+  ADXL343_RANGE_2_G = 0b00,  /**< +/- 2g (default value) */
+}adxl34x_range_t;
+
 class ADXL343
 {
 
@@ -42,6 +50,8 @@ public:
 
     bool    initialize();
     void    readAcceleration(int16_t& x, int16_t& y, int16_t& z);
+    bool    setRange(uint8_t range);
+
 
     
 

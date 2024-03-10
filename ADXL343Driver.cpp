@@ -11,8 +11,8 @@
 bool ADXL343::writeRegister(uint8_t reg, uint8_t value)
 {
     char data[2];
-    data[0] = static_cast<char>(reg);                    // Register address
-    data[1] = static_cast<char>(value);                  // Data to write
+    data[0] = static_cast<char>(reg);   // Register address
+    data[1] = static_cast<char>(value); // Data to write
 
     FunctionStatus status = i2c->i2cWrite(data, 2, 100); // Example timeout of 100 ms
 
@@ -32,12 +32,11 @@ bool ADXL343::writeRegister(uint8_t reg, uint8_t value)
 uint8_t ADXL343::readRegister(uint8_t reg)
 {
     uint8_t value = 0;
-    i2c->i2cWrite(reinterpret_cast<const char*>(&reg), 1, 100);     // Assuming this method exists and works as described
+    i2c->i2cWrite(reinterpret_cast<const char *>(&reg), 1, 100); // Assuming this method exists and works as described
 
-    i2c->i2cRead(reinterpret_cast<char*>(&value), 1, 100);          // Assuming this method exists and works as described
+    i2c->i2cRead(reinterpret_cast<char *>(&value), 1, 100); // Assuming this method exists and works as described
 
     return value;
-
 }
 
 /************************Public methods**************************/
@@ -63,9 +62,26 @@ bool ADXL343::initialize()
         return true;
 }
 
+/**
+ * @brief read acceleration data from the X, Y, and Z axes.
+ */
 void ADXL343::readAcceleration(int16_t &x, int16_t &y, int16_t &z)
 {
-	x = (readRegister(ADXL343_Registers::DATAX1) << 8) | readRegister(ADXL343_Registers::DATAX0);
-	y = (readRegister(ADXL343_Registers::DATAY1) << 8) | readRegister(ADXL343_Registers::DATAY0);
-	z = (readRegister(ADXL343_Registers::DATAZ1) << 8) | readRegister(ADXL343_Registers::DATAZ0);
+    x = (readRegister(ADXL343_Registers::DATAX1) << 8) | readRegister(ADXL343_Registers::DATAX0);
+    y = (readRegister(ADXL343_Registers::DATAY1) << 8) | readRegister(ADXL343_Registers::DATAY0);
+    z = (readRegister(ADXL343_Registers::DATAZ1) << 8) | readRegister(ADXL343_Registers::DATAZ0);
+}
+/**
+ * @brief set g range
+ * Read the current value of the DATA_FORMAT register
+ * Clear the range bits (D1 D0)
+ * Set the new range
+ * Write the updated value back to the DATA_FORMAT register
+ */
+bool ADXL343::setRange(uint8_t range)
+{
+    uint8_t dataFormatValue = readRegister(ADXL343_Registers::DATA_FORMAT);
+    dataFormatValue &= ~0x03;
+    dataFormatValue |= (range & 0x03); // Ensure only the last two bits are used
+    return writeRegister(ADXL343_Registers::DATA_FORMAT, dataFormatValue);
 }

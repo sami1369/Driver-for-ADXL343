@@ -21,6 +21,11 @@ int main()
 
     adx->initialize();
     adx->readAcceleration(x1, y1, z1);
-
     cout << "DATA_X : " << x1 << " DATA_Y : " << y1 << " DATA_Z : " << z1 <<endl;
+
+    if(adx->setRange(ADXL343_RANGE_8_G)){
+        adxl34x_range_t range = ADXL343_RANGE_8_G;
+        cout << "range set in : " << range  <<endl;
+    }
+
 }
