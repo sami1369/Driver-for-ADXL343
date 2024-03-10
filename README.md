@@ -15,7 +15,7 @@ Develop a driver for a 3-axis Accelerometer (ADXL343) using the I2C communicatio
 - Run the application:  
 
   ```sh   
-    .\program.exe
+  .\program.exe
 
 ## Design Approach  
 The driver design focuses on simplicity and ease of use, abstracting away the low-level I2C communication details from the user. 
