@@ -21,7 +21,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdbool.h>
+#include <iostream>
 #include "i2cDriver.h"
+#include "utils.h"
+
+using namespace std;
 
 /**
  * @brief ADXL343-specific definitions
@@ -61,8 +65,9 @@ class ADXL343
 private:
 	I2C_Simulator		*i2c;
     uint8_t             address;
-    bool     writeRegister(uint8_t reg, uint8_t value);
-    uint8_t  readRegister(uint8_t reg);
+
+    virtual bool        writeRegister(uint8_t reg, uint8_t value);
+    virtual uint8_t     readRegister(uint8_t reg);
 
 public:
     ADXL343(I2C_Simulator *i2c_, uint8_t address_ );
@@ -73,4 +78,27 @@ public:
 };
 
 
+
+
+class ADXL343Test : public ADXL343
+{
+private:
+    I2C_Simulator *i2cSimulator;
+
+    virtual bool        writeRegister(uint8_t reg, uint8_t value);
+    virtual uint8_t     readRegister(uint8_t reg);
+
+public:
+    // Use the same constructor as ADXL343
+    ADXL343Test(I2C_Simulator *i2c_, uint8_t address_) : ADXL343(i2c_, address_) {}
+
+    void testTimeoutHandling();
+};
+
 #endif  /*ADXL343DRIVER_H_*/
+
+
+
+
+
+

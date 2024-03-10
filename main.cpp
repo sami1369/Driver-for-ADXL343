@@ -7,7 +7,10 @@
 
 #include "i2cDriver.h"
 #include "ADXL343Driver.h"
+#include "utils.h"
 using namespace std;
+
+// void testMain();
 
 int main()
 {
@@ -19,13 +22,12 @@ int main()
     ADXL343 *adx;
     adx = new ADXL343(i2c_sim, ADXL343_Registers::DEVICE_ADDRESS);
 
-    adx->initialize();
-    adx->readAcceleration(x1, y1, z1);
-    cout << "DATA_X : " << x1 << " DATA_Y : " << y1 << " DATA_Z : " << z1 <<endl;
-
-    if(adx->setRange(ADXL343_RANGE_8_G)){
-        adxl34x_range_t range = ADXL343_RANGE_8_G;
-        cout << "range set in : " << range  <<endl;
-    }
-
+    ADXL343Test *adxl343Test;
+    adxl343Test = new ADXL343Test(i2c_sim, ADXL343_Registers::DEVICE_ADDRESS);
+    
+    // Seed the random number generator with the current time
+    srand(static_cast<unsigned int>(time(nullptr)));
+    // adxl343Test->testInitialization();
+    for (int i = 0; i < 10; i++)
+        adxl343Test->testTimeoutHandling();
 }

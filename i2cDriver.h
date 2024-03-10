@@ -51,11 +51,10 @@ typedef enum
 class I2C_Simulator
 {
 private:
-    uint8_t registers[100];
-
+    uint32_t simulatedTimeoutDuration = 0; // in milliseconds
 public:
-    FunctionStatus i2cWrite(const char *dataToWrite, size_t length, uint32_t timeout);
-    FunctionStatus i2cRead(char *dataToRead, size_t length, uint32_t timeout);
+    FunctionStatus i2cWrite(const char *dataToWrite, size_t length, uint32_t simulatedTimeoutDuration);
+    FunctionStatus i2cRead(char *dataToRead, size_t length, uint32_t simulatedTimeoutDuration);
 };
 
 #endif /*I2CDRIVER_H_ */

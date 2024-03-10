@@ -27,8 +27,8 @@ FunctionStatus I2C_Simulator::i2cWrite(const char *dataToWrite, size_t length, u
 	{
 		return FUNCTION_STATUS_ARGUMENT_ERROR;
 	}
-	Registers[1] = *dataToWrite;
 	// check timeout
+	cout << "estimate." << ((steady_clock::now() - startTime).count() / 1000) << endl;
 	if (((steady_clock::now() - startTime).count() / 1000) > timeout)
 	{
 		cout << "Failed to write data: Timeout." << endl;
